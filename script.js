@@ -50,22 +50,34 @@ clickButton.addEventListener('click', function() {
 // Get milestone level based on number (0=under 1000, 1=thousands, 2=millions, etc.)
 function getMilestoneLevel(number) {
     if (number < 1000) return 0;
-    if (number < 1000000) return 1; // Thousands
-    if (number < 1000000000) return 2; // Millions
-    if (number < 1000000000000) return 3; // Billions
-    return 4; // Trillions+
+    if (number < 10000) return 1; // Thousands (1K-9K)
+    if (number < 100000) return 2; // Ten thousands
+    if (number < 1000000) return 3; // Hundred thousands
+    if (number < 10000000) return 4; // Millions (1M-9M)
+    if (number < 100000000) return 5; // Ten millions
+    if (number < 1000000000) return 6; // Hundred millions
+    if (number < 10000000000) return 7; // Billions (1B-9B)
+    if (number < 100000000000) return 8; // Ten billions
+    if (number < 1000000000000) return 9; // Hundred billions
+    return 10; // Trillions+
 }
 
 // Get celebration message for milestone level
 function getMilestoneMessage(level) {
     const messages = [
         '', // Level 0 - no message
-        '🎉 Thousands milestone! 🎉',
+        '🎉 First Thousand! 🎉',
+        '💫 Ten Thousand Club! 💫',
+        '✨ Hundred Thousand Zone! ✨',
         '🚀 MILLION CLUB! 🚀',
+        '🎆 Ten Million Territory! 🎆',
+        '💎 Hundred Million Heights! 💎',
         '💎 BILLION TERRITORY! 💎',
+        '🔥 Ten Billion Beast! 🔥',
+        '⚡ Hundred Billion Boss! ⚡',
         '🌟 TRILLION LEGENDS! 🌟'
     ];
-    return messages[level] || '🔥 ASTRONOMICAL NUMBERS! 🔥';
+    return messages[level] || '🌌 BEYOND COMPREHENSION! 🌌';
 }
 
 // Celebration function

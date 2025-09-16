@@ -140,6 +140,55 @@ footer {
     color: #666;
 }
 
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.contact-links a {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    min-width: 200px;
+    text-align: center;
+}
+
+.discord-link {
+    background: linear-gradient(135deg, #7289da, #5865f2);
+    color: white;
+}
+
+.discord-link:hover {
+    background: linear-gradient(135deg, #5865f2, #4752c4);
+    transform: translateY(-2px);
+}
+
+.github-link {
+    background: linear-gradient(135deg, #333, #24292e);
+    color: white;
+}
+
+.github-link:hover {
+    background: linear-gradient(135deg, #24292e, #1b1f23);
+    transform: translateY(-2px);
+}
+
+.support-link {
+    background: linear-gradient(135deg, #ff0000, #cc0000);
+    color: white;
+}
+
+.support-link:hover {
+    background: linear-gradient(135deg, #cc0000, #990000);
+    transform: translateY(-2px);
+}
+
 @media (max-width: 768px) {
     header {
         padding: 1rem;
