@@ -189,6 +189,16 @@ footer {
     transform: translateY(-2px);
 }
 
+.steam-link {
+    background: linear-gradient(135deg, #1b2838, #2a475e);
+    color: white;
+}
+
+.steam-link:hover {
+    background: linear-gradient(135deg, #2a475e, #1b2838);
+    transform: translateY(-2px);
+}
+
 /* ===========================================
    🧮 GRAPHING CALCULATOR STYLES
    =========================================== */
