@@ -38,46 +38,86 @@ clickButton.addEventListener('click', function() {
     // Add some visual feedback
     clickButton.textContent = `Clicked ${clickCount} times!`;
 
-    // Check for milestone crossings (only trigger when crossing to new level)
-    const currentMilestoneLevel = getMilestoneLevel(fibValue);
-    if (currentMilestoneLevel > lastMilestoneLevel) {
-        const milestoneMessage = getMilestoneMessage(currentMilestoneLevel);
+    // Check for dynamic milestone crossings
+    const currentMilestone = getMilestoneInfo(fibValue);
+    if (currentMilestone && currentMilestone.value > lastMilestoneLevel) {
+        const milestoneMessage = getMilestoneMessage(currentMilestone);
         showCelebration(milestoneMessage);
-        lastMilestoneLevel = currentMilestoneLevel;
+        lastMilestoneLevel = currentMilestone.value;
+
+        // Log milestone for debugging
+        console.log(`🎉 Milestone reached: ${currentMilestone.name} (${currentMilestone.value.toLocaleString()})`);
     }
 });
 
-// Get milestone level based on number (0=under 1000, 1=thousands, 2=millions, etc.)
-function getMilestoneLevel(number) {
-    if (number < 1000) return 0;
-    if (number < 10000) return 1; // Thousands (1K-9K)
-    if (number < 100000) return 2; // Ten thousands
-    if (number < 1000000) return 3; // Hundred thousands
-    if (number < 10000000) return 4; // Millions (1M-9M)
-    if (number < 100000000) return 5; // Ten millions
-    if (number < 1000000000) return 6; // Hundred millions
-    if (number < 10000000000) return 7; // Billions (1B-9B)
-    if (number < 100000000000) return 8; // Ten billions
-    if (number < 1000000000000) return 9; // Hundred billions
-    return 10; // Trillions+
+// Dynamic milestone detection - works with any number size!
+function getMilestoneInfo(number) {
+    if (number < 1000) return null; // No milestone under 1000
+
+    // Calculate the order of magnitude (how many digits)
+    const digits = Math.floor(Math.log10(number)) + 1;
+
+    // Find the highest round number this beats
+    const magnitude = Math.floor(Math.log10(number));
+    const powerOf10 = Math.pow(10, magnitude);
+
+    // Check if this is a "nice" milestone (1, 2, 5 times a power of 10)
+    const leadingDigit = Math.floor(number / powerOf10);
+
+    // Only celebrate round milestones: 1x, 2x, 5x each power of 10
+    if (![1, 2, 5].includes(leadingDigit)) return null;
+
+    const milestoneValue = leadingDigit * powerOf10;
+
+    // Generate dynamic name
+    const names = {
+        3: 'Thousand', 4: 'Ten Thousand', 5: 'Hundred Thousand',
+        6: 'Million', 7: 'Ten Million', 8: 'Hundred Million',
+        9: 'Billion', 10: 'Ten Billion', 11: 'Hundred Billion',
+        12: 'Trillion', 13: 'Ten Trillion', 14: 'Hundred Trillion',
+        15: 'Quadrillion', 16: 'Ten Quadrillion', 17: 'Hundred Quadrillion',
+        18: 'Quintillion', 19: 'Ten Quintillion', 20: 'Hundred Quintillion',
+        21: 'Sextillion', 22: 'Ten Sextillion', 23: 'Hundred Sextillion'
+    };
+
+    const baseName = names[magnitude] || `10^${magnitude}`;
+    const prefix = leadingDigit === 1 ? '' : `${leadingDigit} `;
+
+    return {
+        value: milestoneValue,
+        name: `${prefix}${baseName}`,
+        magnitude: magnitude,
+        digits: digits
+    };
 }
 
-// Get celebration message for milestone level
-function getMilestoneMessage(level) {
-    const messages = [
-        '', // Level 0 - no message
-        '🎉 First Thousand! 🎉',
-        '💫 Ten Thousand Club! 💫',
-        '✨ Hundred Thousand Zone! ✨',
-        '🚀 MILLION CLUB! 🚀',
-        '🎆 Ten Million Territory! 🎆',
-        '💎 Hundred Million Heights! 💎',
-        '💎 BILLION TERRITORY! 💎',
-        '🔥 Ten Billion Beast! 🔥',
-        '⚡ Hundred Billion Boss! ⚡',
-        '🌟 TRILLION LEGENDS! 🌟'
+// Generate dynamic celebration message
+function getMilestoneMessage(milestoneInfo) {
+    if (!milestoneInfo) return '';
+
+    // Dynamic emoji selection based on magnitude
+    const emojiSets = [
+        ['🎉', '🎊'], // Thousands
+        ['💫', '⭐'], // Ten thousands
+        ['✨', '🌟'], // Hundred thousands
+        ['🚀', '🛸'], // Millions
+        ['🎆', '🎇'], // Ten millions
+        ['💎', '💠'], // Hundred millions
+        ['🔥', '💥'], // Billions
+        ['⚡', '🌩️'], // Ten billions
+        ['🌊', '🌀'], // Hundred billions
+        ['🌟', '💫'], // Trillions
+        ['🌌', '🪐'], // Ten trillions+
+        ['🌈', '🦄'], // Even higher
+        ['👑', '💫'], // Quadrillions+
+        ['🎯', '🏆'], // Quintillions+
+        ['🔮', '✨']  // Beyond comprehension
     ];
-    return messages[level] || '🌌 BEYOND COMPREHENSION! 🌌';
+
+    const emojiIndex = Math.min(Math.floor(milestoneInfo.magnitude / 3), emojiSets.length - 1);
+    const [emoji1, emoji2] = emojiSets[emojiIndex];
+
+    return `${emoji1} ${milestoneInfo.name.toUpperCase()} MILESTONE! ${emoji2}`;
 }
 
 // Celebration function
