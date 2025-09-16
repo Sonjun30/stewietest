@@ -216,3 +216,233 @@ document.addEventListener('DOMContentLoaded', function() {
 
 console.log('🤖 Steward\'s website loaded successfully!');
 console.log('Try clicking the button to see fibonacci magic! 🍪');
+
+// ===========================================
+// 🧮 GRAPHING CALCULATOR FUNCTIONALITY
+// ===========================================
+
+class GraphingCalculator {
+    constructor() {
+        this.canvas = document.getElementById('graph-canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.functionInput = document.getElementById('function-input');
+        this.coordinatesDisplay = document.getElementById('coordinates');
+
+        // Graph settings
+        this.xMin = -10;
+        this.xMax = 10;
+        this.yMin = -10;
+        this.yMax = 10;
+        this.gridSpacing = 1;
+
+        this.setupEventListeners();
+        this.drawGrid();
+        this.plotFunction('sin(x)'); // Default function
+    }
+
+    setupEventListeners() {
+        // Plot button
+        document.getElementById('plot-button').addEventListener('click', () => {
+            const func = this.functionInput.value;
+            this.plotFunction(func);
+        });
+
+        // Clear button
+        document.getElementById('clear-button').addEventListener('click', () => {
+            this.clearGraph();
+        });
+
+        // Preset buttons
+        document.getElementById('preset-sin').addEventListener('click', () => {
+            this.functionInput.value = 'sin(x)';
+            this.plotFunction('sin(x)');
+        });
+
+        document.getElementById('preset-cos').addEventListener('click', () => {
+            this.functionInput.value = 'cos(x)';
+            this.plotFunction('cos(x)');
+        });
+
+        document.getElementById('preset-parabola').addEventListener('click', () => {
+            this.functionInput.value = 'x^2';
+            this.plotFunction('x^2');
+        });
+
+        document.getElementById('preset-fibonacci').addEventListener('click', () => {
+            this.functionInput.value = 'fibonacci(x)';
+            this.plotFibonacci();
+        });
+
+        // Mouse coordinates
+        this.canvas.addEventListener('mousemove', (e) => {
+            this.showCoordinates(e);
+        });
+
+        // Enter key support
+        this.functionInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.plotFunction(this.functionInput.value);
+            }
+        });
+    }
+
+    clearGraph() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.drawGrid();
+    }
+
+    drawGrid() {
+        const { width, height } = this.canvas;
+        this.ctx.strokeStyle = '#e0e0e0';
+        this.ctx.lineWidth = 0.5;
+
+        // Calculate step size
+        const xStep = width / (this.xMax - this.xMin);
+        const yStep = height / (this.yMax - this.yMin);
+
+        // Vertical grid lines
+        for (let x = this.xMin; x <= this.xMax; x += this.gridSpacing) {
+            const canvasX = (x - this.xMin) * xStep;
+            this.ctx.beginPath();
+            this.ctx.moveTo(canvasX, 0);
+            this.ctx.lineTo(canvasX, height);
+            this.ctx.stroke();
+        }
+
+        // Horizontal grid lines
+        for (let y = this.yMin; y <= this.yMax; y += this.gridSpacing) {
+            const canvasY = height - (y - this.yMin) * yStep;
+            this.ctx.beginPath();
+            this.ctx.moveTo(0, canvasY);
+            this.ctx.lineTo(width, canvasY);
+            this.ctx.stroke();
+        }
+
+        // Draw axes
+        this.ctx.strokeStyle = '#333333';
+        this.ctx.lineWidth = 2;
+
+        // X-axis
+        const yZero = height - (0 - this.yMin) * yStep;
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, yZero);
+        this.ctx.lineTo(width, yZero);
+        this.ctx.stroke();
+
+        // Y-axis
+        const xZero = (0 - this.xMin) * xStep;
+        this.ctx.beginPath();
+        this.ctx.moveTo(xZero, 0);
+        this.ctx.lineTo(xZero, height);
+        this.ctx.stroke();
+    }
+
+    evaluateFunction(funcStr, x) {
+        try {
+            // Convert common math notation to JavaScript
+            let jsFunc = funcStr
+                .replace(/\^/g, '**')  // x^2 → x**2
+                .replace(/sin/g, 'Math.sin')
+                .replace(/cos/g, 'Math.cos')
+                .replace(/tan/g, 'Math.tan')
+                .replace(/log/g, 'Math.log10')
+                .replace(/ln/g, 'Math.log')
+                .replace(/sqrt/g, 'Math.sqrt')
+                .replace(/abs/g, 'Math.abs')
+                .replace(/pi/g, 'Math.PI')
+                .replace(/e/g, 'Math.E')
+                .replace(/x/g, `(${x})`);
+
+            // Evaluate the function
+            return Function('"use strict"; return (' + jsFunc + ')')();
+        } catch (error) {
+            return NaN;
+        }
+    }
+
+    plotFunction(funcStr) {
+        this.clearGraph();
+
+        const { width, height } = this.canvas;
+        const xStep = width / (this.xMax - this.xMin);
+        const yStep = height / (this.yMax - this.yMin);
+
+        this.ctx.strokeStyle = '#ff6b6b';
+        this.ctx.lineWidth = 3;
+        this.ctx.beginPath();
+
+        let firstPoint = true;
+        const step = (this.xMax - this.xMin) / width;
+
+        for (let canvasX = 0; canvasX <= width; canvasX++) {
+            const x = this.xMin + (canvasX / width) * (this.xMax - this.xMin);
+            const y = this.evaluateFunction(funcStr, x);
+
+            if (!isNaN(y) && isFinite(y)) {
+                const canvasY = height - (y - this.yMin) * yStep;
+
+                if (canvasY >= 0 && canvasY <= height) {
+                    if (firstPoint) {
+                        this.ctx.moveTo(canvasX, canvasY);
+                        firstPoint = false;
+                    } else {
+                        this.ctx.lineTo(canvasX, canvasY);
+                    }
+                }
+            } else {
+                firstPoint = true;
+            }
+        }
+
+        this.ctx.stroke();
+    }
+
+    plotFibonacci() {
+        this.clearGraph();
+
+        const { width, height } = this.canvas;
+        this.ctx.strokeStyle = '#4ecdc4';
+        this.ctx.lineWidth = 3;
+
+        // Plot fibonacci sequence as points
+        for (let n = 0; n <= 15; n++) {
+            const fibValue = fibonacci(n);
+            if (fibValue > this.yMax) break;
+
+            const canvasX = (n - this.xMin) * (width / (this.xMax - this.xMin));
+            const canvasY = height - (fibValue - this.yMin) * (height / (this.yMax - this.yMin));
+
+            if (canvasX >= 0 && canvasX <= width && canvasY >= 0 && canvasY <= height) {
+                this.ctx.beginPath();
+                this.ctx.arc(canvasX, canvasY, 5, 0, 2 * Math.PI);
+                this.ctx.fillStyle = '#4ecdc4';
+                this.ctx.fill();
+
+                // Add number labels
+                this.ctx.fillStyle = '#333';
+                this.ctx.font = '12px Arial';
+                this.ctx.fillText(fibValue, canvasX + 8, canvasY - 8);
+            }
+        }
+    }
+
+    showCoordinates(event) {
+        const rect = this.canvas.getBoundingClientRect();
+        const canvasX = event.clientX - rect.left;
+        const canvasY = event.clientY - rect.top;
+
+        const x = this.xMin + (canvasX / this.canvas.width) * (this.xMax - this.xMin);
+        const y = this.yMax - (canvasY / this.canvas.height) * (this.yMax - this.yMin);
+
+        this.coordinatesDisplay.textContent = `Coordinates: (${x.toFixed(2)}, ${y.toFixed(2)})`;
+    }
+}
+
+// Initialize the graphing calculator when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Only initialize if calculator elements exist (in case this script runs elsewhere)
+    if (document.getElementById('graph-canvas')) {
+        window.calculator = new GraphingCalculator();
+        console.log('📊 Graphing calculator initialized!');
+    }
+});

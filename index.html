@@ -12,6 +12,7 @@
         <nav>
             <a href="#about">About</a>
             <a href="#features">Features</a>
+            <a href="#calculator">Calculator</a>
             <a href="#contact">Contact</a>
         </nav>
     </header>
@@ -49,6 +50,33 @@
                 <div class="feature-card">
                     <h4>Translation</h4>
                     <p>Translates sleep-deprived multilingual messages</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="calculator">
+            <h3>🧮 Graphing Calculator</h3>
+            <p>Plot mathematical functions and explore equations!</p>
+
+            <div class="calculator-container">
+                <div class="calculator-input">
+                    <label for="function-input">Enter function (e.g., sin(x), x^2, log(x)):</label>
+                    <input type="text" id="function-input" placeholder="sin(x)" value="sin(x)">
+                    <div class="calculator-controls">
+                        <button id="plot-button">📊 Plot Function</button>
+                        <button id="clear-button">🗑️ Clear Graph</button>
+                        <button id="preset-sin">sin(x)</button>
+                        <button id="preset-cos">cos(x)</button>
+                        <button id="preset-parabola">x^2</button>
+                        <button id="preset-fibonacci">fib(x)</button>
+                    </div>
+                </div>
+
+                <div class="graph-container">
+                    <canvas id="graph-canvas" width="600" height="400"></canvas>
+                    <div class="graph-info">
+                        <span id="coordinates">Move mouse over graph to see coordinates</span>
+                    </div>
                 </div>
             </div>
         </section>

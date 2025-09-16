@@ -189,6 +189,115 @@ footer {
     transform: translateY(-2px);
 }
 
+/* ===========================================
+   🧮 GRAPHING CALCULATOR STYLES
+   =========================================== */
+
+.calculator-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-top: 2rem;
+    align-items: start;
+}
+
+.calculator-input {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.calculator-input label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.calculator-input input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    font-family: 'Courier New', monospace;
+    box-sizing: border-box;
+}
+
+.calculator-input input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.calculator-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.calculator-controls button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.calculator-controls button:hover {
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.graph-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#graph-canvas {
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    cursor: crosshair;
+    max-width: 100%;
+    height: auto;
+}
+
+.graph-info {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 5px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .calculator-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    #graph-canvas {
+        width: 100%;
+        height: 300px;
+    }
+
+    .calculator-controls {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 768px) {
     header {
         padding: 1rem;
