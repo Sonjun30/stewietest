@@ -16,6 +16,7 @@ function fibonacci(n) {
 // Click counter with fibonacci progression
 let clickCount = 0;
 let fibPosition = 0;
+let lastMilestoneLevel = 0; // Track the last milestone level reached
 
 // Get DOM elements
 const clickButton = document.getElementById('clickMe');
@@ -37,13 +38,35 @@ clickButton.addEventListener('click', function() {
     // Add some visual feedback
     clickButton.textContent = `Clicked ${clickCount} times!`;
 
-    // Easter egg for milestone numbers
-    if (fibValue >= 1000 && fibValue < 10000 && fibPosition % 5 === 0) {
-        showCelebration('🎉 Thousands milestone! 🎉');
-    } else if (fibValue >= 1000000) {
-        showCelebration('🚀 MILLION CLUB! 🚀');
+    // Check for milestone crossings (only trigger when crossing to new level)
+    const currentMilestoneLevel = getMilestoneLevel(fibValue);
+    if (currentMilestoneLevel > lastMilestoneLevel) {
+        const milestoneMessage = getMilestoneMessage(currentMilestoneLevel);
+        showCelebration(milestoneMessage);
+        lastMilestoneLevel = currentMilestoneLevel;
     }
 });
+
+// Get milestone level based on number (0=under 1000, 1=thousands, 2=millions, etc.)
+function getMilestoneLevel(number) {
+    if (number < 1000) return 0;
+    if (number < 1000000) return 1; // Thousands
+    if (number < 1000000000) return 2; // Millions
+    if (number < 1000000000000) return 3; // Billions
+    return 4; // Trillions+
+}
+
+// Get celebration message for milestone level
+function getMilestoneMessage(level) {
+    const messages = [
+        '', // Level 0 - no message
+        '🎉 Thousands milestone! 🎉',
+        '🚀 MILLION CLUB! 🚀',
+        '💎 BILLION TERRITORY! 💎',
+        '🌟 TRILLION LEGENDS! 🌟'
+    ];
+    return messages[level] || '🔥 ASTRONOMICAL NUMBERS! 🔥';
+}
 
 // Celebration function
 function showCelebration(message) {
