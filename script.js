@@ -445,4 +445,63 @@ document.addEventListener('DOMContentLoaded', function() {
         window.calculator = new GraphingCalculator();
         console.log('📊 Graphing calculator initialized!');
     }
+
+    // Initialize video player functionality
+    initializeVideoPlayer();
 });
+
+// ===========================================
+// 🎥 VIDEO PLAYER FUNCTIONALITY
+// ===========================================
+
+function initializeVideoPlayer() {
+    const supportButton = document.getElementById('support-button');
+    const videoContainer = document.getElementById('video-container');
+    const closeButton = document.getElementById('close-video');
+    const video = document.getElementById('support-video');
+
+    if (!supportButton || !videoContainer || !closeButton || !video) {
+        console.log('Video player elements not found');
+        return;
+    }
+
+    // Show video when support button is clicked
+    supportButton.addEventListener('click', function() {
+        videoContainer.classList.remove('hidden');
+        video.play().catch(e => {
+            console.log('Auto-play prevented:', e);
+            // If autoplay is blocked, that's fine - user can click play
+        });
+        console.log('🎥 Support video opened!');
+    });
+
+    // Close video when X button is clicked
+    closeButton.addEventListener('click', function() {
+        video.pause();
+        video.currentTime = 0; // Reset to beginning
+        videoContainer.classList.add('hidden');
+        console.log('🎥 Support video closed!');
+    });
+
+    // Close video when clicking outside the video
+    videoContainer.addEventListener('click', function(e) {
+        if (e.target === videoContainer) {
+            video.pause();
+            video.currentTime = 0;
+            videoContainer.classList.add('hidden');
+            console.log('🎥 Support video closed by clicking outside!');
+        }
+    });
+
+    // Close video with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !videoContainer.classList.contains('hidden')) {
+            video.pause();
+            video.currentTime = 0;
+            videoContainer.classList.add('hidden');
+            console.log('🎥 Support video closed with Escape key!');
+        }
+    });
+
+    console.log('🎥 Video player initialized!');
+}

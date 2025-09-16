@@ -88,9 +88,20 @@
                 <a href="https://discord.gg/sdSsECnQWU" target="_blank" class="discord-link">🎮 Join Our Discord Server</a>
                 <a href="https://github.com/Sonjun30/stewietest" target="_blank" class="github-link">📱 View on GitHub Pages</a>
                 <a href="https://store.steampowered.com/app/3527290/PEAK/" target="_blank" class="steam-link">⚡ Download PEAK</a>
-                <a href="https://www.youtube.com/watch?v=Yb6dZ1IFlKc" target="_blank" class="support-link">❓ Click this link for support</a>
+                <button id="support-button" class="support-button">❓ Click this for support</button>
             </div>
         </section>
+
+        <!-- Hidden video player -->
+        <div id="video-container" class="video-container hidden">
+            <div class="video-overlay">
+                <button id="close-video" class="close-video">×</button>
+                <video id="support-video" controls>
+                    <source src="videoplayback.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
     </main>
 
     <footer>
