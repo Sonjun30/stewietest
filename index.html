@@ -13,9 +13,11 @@
             <a href="#about">About</a>
             <a href="#features">Features</a>
             <a href="#calculator">Calculator</a>
-            <a href="#livestats">Live Stats</a>
             <a href="#contact">Contact</a>
         </nav>
+        <button id="theme-toggle" class="theme-toggle" title="Toggle dark/light mode">
+            🌙
+        </button>
     </header>
 
     <main>
@@ -82,75 +84,13 @@
             </div>
         </section>
 
-        <section id="livestats">
-            <h3>📊 Live Discord Stats</h3>
-            <p>Real-time server activity and message counters!</p>
-
-            <div class="stats-dashboard">
-                <div class="stats-grid">
-                    <div class="stat-card server-stats">
-                        <h4>🏠 Server Overview</h4>
-                        <div class="stat-item">
-                            <span class="stat-label">Total Members:</span>
-                            <span id="member-count" class="stat-value loading">Loading...</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Online Now:</span>
-                            <span id="online-count" class="stat-value loading">Loading...</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Total Channels:</span>
-                            <span id="channel-count" class="stat-value loading">Loading...</span>
-                        </div>
-                    </div>
-
-                    <div class="stat-card message-stats">
-                        <h4>💬 Message Activity</h4>
-                        <div class="stat-item">
-                            <span class="stat-label">Recent Messages:</span>
-                            <span id="recent-messages" class="stat-value loading">Loading...</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Active Users:</span>
-                            <span id="active-users" class="stat-value loading">Loading...</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Messages Today:</span>
-                            <span id="messages-today" class="stat-value loading">Loading...</span>
-                        </div>
-                    </div>
-
-                    <div class="stat-card leaderboard">
-                        <h4>🏆 Top Contributors</h4>
-                        <div id="user-leaderboard" class="leaderboard-list">
-                            <div class="loading">Loading leaderboard...</div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card channel-activity">
-                        <h4>🔥 Channel Activity</h4>
-                        <div id="channel-activity" class="activity-list">
-                            <div class="loading">Loading activity...</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="stats-controls">
-                    <button id="refresh-stats" class="refresh-button">🔄 Refresh Stats</button>
-                    <div class="last-updated">
-                        Last updated: <span id="last-updated">Never</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact">
+<section id="contact">
             <h3>Join Our Discord!</h3>
             <p>Come chat with Tibo, yoyo, Sonjun, The Ghost, and the rest of the community!</p>
             <div class="contact-links">
                 <a href="https://discord.gg/sdSsECnQWU" target="_blank" class="discord-link">🎮 Join Our Discord Server</a>
-                <a href="https://github.com/Sonjun30/stewietest" target="_blank" class="github-link">📱 View on GitHub Pages</a>
                 <a href="https://store.steampowered.com/app/3527290/PEAK/" target="_blank" class="steam-link">⚡ Download PEAK</a>
+                <a href="https://github.com/Sonjun30/stewietest" target="_blank" class="github-link">📱 View Source Code</a>
                 <button id="support-button" class="support-button">❓ Click this for support</button>
             </div>
         </section>

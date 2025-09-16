@@ -449,8 +449,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize video player functionality
     initializeVideoPlayer();
 
-    // Initialize live Discord stats
-    initializeLiveStats();
+    // Initialize theme toggle
+    initializeThemeToggle();
 });
 
 // ===========================================
@@ -510,188 +510,53 @@ function initializeVideoPlayer() {
 }
 
 // ===========================================
-// 📊 LIVE DISCORD STATS FUNCTIONALITY
+// 🌓 DARK/LIGHT MODE TOGGLE FUNCTIONALITY
 // ===========================================
 
-class DiscordStats {
-    constructor() {
-        this.serverId = '1414390497761562734'; // Our server ID
-        this.updateInterval = 30000; // Update every 30 seconds
-        this.lastUpdate = null;
-
-        // Simulated data - in a real implementation this would come from Discord API
-        this.mockData = {
-            memberCount: 127,
-            onlineCount: 23,
-            channelCount: 15,
-            recentMessages: 0,
-            activeUsers: [],
-            messagesToday: 0,
-            topUsers: [
-                { name: 'yoyo', messages: 2847, trend: '+12' },
-                { name: 'The Ghost', messages: 1923, trend: '+5' },
-                { name: 'Sonjun', messages: 1456, trend: '+8' },
-                { name: 'Tibo', messages: 891, trend: '+3' },
-                { name: 'bam', messages: 647, trend: '+1' }
-            ],
-            channelActivity: [
-                { name: '#steward', messages: 342, trend: 'up' },
-                { name: '#general', messages: 189, trend: 'up' },
-                { name: '#mod-support', messages: 95, trend: 'down' },
-                { name: '#off-topic', messages: 67, trend: 'stable' }
-            ]
-        };
-    }
-
-    async fetchServerStats() {
-        // Simulate API delay and dynamic data
-        await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
-
-        // Add some randomness to simulate live data
-        const variation = () => Math.floor(Math.random() * 5) - 2; // -2 to +2
-
-        return {
-            ...this.mockData,
-            onlineCount: Math.max(15, this.mockData.onlineCount + variation()),
-            recentMessages: Math.floor(Math.random() * 50) + 20,
-            messagesToday: this.mockData.messagesToday + Math.floor(Math.random() * 10) + 1,
-            topUsers: this.mockData.topUsers.map(user => ({
-                ...user,
-                messages: user.messages + Math.floor(Math.random() * 3)
-            }))
-        };
-    }
-
-    async updateStats() {
-        console.log('📊 Updating Discord stats...');
-
-        try {
-            const stats = await this.fetchServerStats();
-
-            // Update server overview
-            this.updateElement('member-count', stats.memberCount.toLocaleString());
-            this.updateElement('online-count', stats.onlineCount.toLocaleString());
-            this.updateElement('channel-count', stats.channelCount.toLocaleString());
-
-            // Update message activity
-            this.updateElement('recent-messages', stats.recentMessages.toLocaleString());
-            this.updateElement('active-users', stats.onlineCount.toLocaleString());
-            this.updateElement('messages-today', stats.messagesToday.toLocaleString());
-
-            // Update leaderboard
-            this.updateLeaderboard(stats.topUsers);
-
-            // Update channel activity
-            this.updateChannelActivity(stats.channelActivity);
-
-            // Update timestamp
-            this.lastUpdate = new Date();
-            this.updateElement('last-updated', this.lastUpdate.toLocaleTimeString());
-
-            console.log('✅ Discord stats updated successfully!');
-
-        } catch (error) {
-            console.error('❌ Failed to update Discord stats:', error);
-            this.showError();
-        }
-    }
-
-    updateElement(id, value) {
-        const element = document.getElementById(id);
-        if (element) {
-            element.textContent = value;
-            element.classList.remove('loading');
-
-            // Add update animation
-            element.style.transform = 'scale(1.1)';
-            setTimeout(() => {
-                element.style.transform = 'scale(1)';
-            }, 200);
-        }
-    }
-
-    updateLeaderboard(users) {
-        const container = document.getElementById('user-leaderboard');
-        if (!container) return;
-
-        container.innerHTML = users.map((user, index) => `
-            <div class="leaderboard-item">
-                <span class="rank">#${index + 1}</span>
-                <span class="username">${user.name}</span>
-                <span class="message-count">${user.messages.toLocaleString()}</span>
-                <span class="trend ${user.trend.startsWith('+') ? 'positive' : 'neutral'}">${user.trend}</span>
-            </div>
-        `).join('');
-
-        container.classList.remove('loading');
-    }
-
-    updateChannelActivity(channels) {
-        const container = document.getElementById('channel-activity');
-        if (!container) return;
-
-        const trendEmoji = {
-            'up': '📈',
-            'down': '📉',
-            'stable': '➡️'
-        };
-
-        container.innerHTML = channels.map(channel => `
-            <div class="activity-item">
-                <span class="channel-name">${channel.name}</span>
-                <span class="message-count">${channel.messages}</span>
-                <span class="trend-indicator">${trendEmoji[channel.trend]}</span>
-            </div>
-        `).join('');
-
-        container.classList.remove('loading');
-    }
-
-    showError() {
-        const elements = ['member-count', 'online-count', 'channel-count', 'recent-messages', 'active-users', 'messages-today'];
-        elements.forEach(id => {
-            this.updateElement(id, 'Error');
-        });
-    }
-
-    startAutoUpdate() {
-        // Initial update
-        this.updateStats();
-
-        // Set up periodic updates
-        setInterval(() => {
-            this.updateStats();
-        }, this.updateInterval);
-
-        console.log(`🔄 Auto-update started (every ${this.updateInterval/1000}s)`);
-    }
-}
-
-function initializeLiveStats() {
-    // Only initialize if stats elements exist
-    if (!document.getElementById('member-count')) {
-        console.log('Live stats elements not found');
+function initializeThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) {
+        console.log('Theme toggle button not found');
         return;
     }
 
-    const discordStats = new DiscordStats();
+    // Check for saved theme preference or default to dark mode
+    const savedTheme = localStorage.getItem('theme');
+    const isLightMode = savedTheme === 'light';
 
-    // Manual refresh button
-    const refreshButton = document.getElementById('refresh-stats');
-    if (refreshButton) {
-        refreshButton.addEventListener('click', () => {
-            refreshButton.textContent = '🔄 Refreshing...';
-            refreshButton.disabled = true;
-
-            discordStats.updateStats().finally(() => {
-                refreshButton.textContent = '🔄 Refresh Stats';
-                refreshButton.disabled = false;
-            });
-        });
+    // Set initial theme (default is dark)
+    if (isLightMode) {
+        document.documentElement.classList.add('light-mode');
+        themeToggle.textContent = '🌙'; // Moon for dark mode option
+    } else {
+        document.documentElement.classList.remove('light-mode');
+        themeToggle.textContent = '☀️'; // Sun for light mode option
     }
 
-    // Start auto-updating
-    discordStats.startAutoUpdate();
+    // Theme toggle functionality
+    themeToggle.addEventListener('click', () => {
+        const isCurrentlyLight = document.documentElement.classList.contains('light-mode');
 
-    console.log('📊 Live Discord stats initialized!');
+        if (isCurrentlyLight) {
+            // Switch to dark mode
+            document.documentElement.classList.remove('light-mode');
+            themeToggle.textContent = '☀️';
+            localStorage.setItem('theme', 'dark');
+            console.log('🌙 Switched to dark mode');
+        } else {
+            // Switch to light mode
+            document.documentElement.classList.add('light-mode');
+            themeToggle.textContent = '🌙';
+            localStorage.setItem('theme', 'light');
+            console.log('☀️ Switched to light mode');
+        }
+
+        // Add a subtle animation effect
+        themeToggle.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            themeToggle.style.transform = 'scale(1)';
+        }, 150);
+    });
+
+    console.log('🌓 Theme toggle initialized! Default: Dark mode');
 }
