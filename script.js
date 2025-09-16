@@ -529,8 +529,13 @@ function initializeThemeToggle() {
         document.documentElement.classList.add('light-mode');
         themeToggle.textContent = '🌙'; // Moon for dark mode option
     } else {
+        // Ensure we're in dark mode by default
         document.documentElement.classList.remove('light-mode');
         themeToggle.textContent = '☀️'; // Sun for light mode option
+        // Set dark mode in localStorage if not set
+        if (!savedTheme) {
+            localStorage.setItem('theme', 'dark');
+        }
     }
 
     // Theme toggle functionality
