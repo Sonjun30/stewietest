@@ -7,7 +7,9 @@ A sample website built by **Steward**, the Discord bot for the Half Sword Enhanc
 ### 🎯 Interactive Fibonacci Counter
 - Click the button to increment both a regular counter and fibonacci sequence
 - Real-time calculations with proper number formatting (commas for readability)
-- Milestone celebrations with animated popups when reaching thousands/millions
+- **Dynamic milestone system** with intelligent detection for ANY number size
+- Celebrates meaningful milestones: 1K, 2K, 5K, 10K, 20K, 50K, 100K, 200K, 500K, 1M, 2M, 5M, etc.
+- Scales infinitely: works from thousands to quintillions and beyond
 - Visual feedback and dynamic button text updates
 
 ### 🎨 Modern Design
@@ -19,6 +21,8 @@ A sample website built by **Steward**, the Discord bot for the Half Sword Enhanc
 ### 🚀 Technical Features
 - **Vanilla JavaScript**: No frameworks - pure HTML, CSS, and JS
 - **Fibonacci Calculations**: Accurate mathematical progression matching Discord bot logic
+- **Dynamic Milestone Detection**: Logarithmic algorithms for unlimited number support
+- **Intelligent Celebrations**: Only triggers on meaningful milestones (1x, 2x, 5x powers of 10)
 - **Smooth Scrolling**: Navigation with smooth scroll to sections
 - **Dynamic Content**: Random fun facts and timestamp generation
 - **Local Development Server**: Bun-based HTTP server included
@@ -50,14 +54,14 @@ This website was created by **Steward**, a Discord bot that helps the Half Sword
 ## 🚀 Getting Started
 
 ### Online Demo
-Visit the live website: **[View on GitHub Pages](https://dfgpodjfonm.github.io/stewiedabest)** *(if enabled)*
+Visit the live website: **[https://sonjun30.github.io/stewietest/](https://sonjun30.github.io/stewietest/)**
 
 ### Local Development
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/dfgpodjfonm/stewiedabest.git
-   cd stewiedabest
+   git clone https://github.com/Sonjun30/stewietest.git
+   cd stewietest
    ```
 
 2. **Install Bun** (if not already installed):
@@ -89,10 +93,10 @@ php -S localhost:8080
 ## 📁 File Structure
 
 ```
-stewiedabest/
+stewietest/
 ├── index.html          # Main webpage with structure and content
 ├── style.css           # Responsive styling and animations
-├── script.js           # Interactive fibonacci counter logic
+├── script.js           # Dynamic fibonacci counter with unlimited milestones
 ├── server.js           # Bun development server
 └── README.md           # This documentation file
 ```
@@ -115,15 +119,18 @@ stewiedabest/
 - Community-focused content
 
 ### Contact Section
-- Invitation to join the Discord community
-- Links to connect with other community members
+- Direct Discord server invite link
+- GitHub Pages repository link
+- Support resources and community connections
 
 ## 🎉 Easter Eggs
 
-- **Milestone Celebrations**: Animated popups for significant fibonacci numbers
+- **Dynamic Milestone Celebrations**: Animated popups that scale infinitely with your progress
+- **Magnitude-Based Emojis**: Different emoji sets for different number ranges
+- **Console Milestone Logging**: Check the browser console to see exact milestone values
 - **Random Fun Facts**: Community-related facts that change on page load
-- **Console Messages**: Check the browser console for developer messages
 - **Hover Effects**: Interactive elements throughout the page
+- **Infinite Scaling**: Test the limits - see how high you can push the fibonacci sequence!
 
 ## 📱 Responsive Design
 
@@ -135,11 +142,12 @@ The website adapts to different screen sizes:
 ## 🤖 About Steward Bot
 
 Steward is a Discord bot built for the Half Sword Enhancer community, featuring:
-- Real-time counter tracking with fibonacci sequences
+- Real-time counter tracking with dynamic fibonacci sequences
+- **Unlimited milestone detection** - scales from thousands to astronomical numbers
 - Mod support and troubleshooting assistance
 - Multilingual translation capabilities
 - Interactive community features
-- Milestone celebrations and achievements
+- Advanced milestone celebrations with intelligent algorithms
 
 ## 🔗 Links
 
