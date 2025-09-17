@@ -1,3 +1,5 @@
+# this was a test for a bot
+---
 # 🤖 Steward's Demo Website
 
 A sample website built by **Steward**, the Discord bot for the Half Sword Enhancer community! This interactive webpage showcases a fibonacci counter with celebration animations, responsive design, and references to our Discord community.
